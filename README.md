@@ -1,168 +1,171 @@
-# 🚀 Fitlix Store
+# Shopify Liquid Snippets
 
-<div align="center">
+A collection of drop-in, dependency-free Liquid snippets for Shopify themes. Every snippet is self-documenting, accessible by default, and works in any Online Store 2.0 theme.
 
-# Fitlix Store
+No app required. No JavaScript required. Copy the file, render it, done.
 
-### Modern Open-Source eCommerce Storefront for Fitness & Supplement Brands
+## Installation
 
-A premium, responsive, high-performance storefront built with HTML, CSS, and JavaScript, designed for modern fitness, nutrition, and supplement businesses.
+Copy any `.liquid` file from `snippets/` into your theme's `snippets/` folder, then render it:
 
-![GitHub stars](https://img.shields.io/github/stars/YOUR_USERNAME/fitlix-store?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/YOUR_USERNAME/fitlix-store?style=for-the-badge)
-![GitHub license](https://img.shields.io/github/license/YOUR_USERNAME/fitlix-store?style=for-the-badge)
+```liquid
+{% render 'price', product: product, show_savings: true %}
+```
 
-</div>
-
----
-
-# 📖 Overview
-
-Fitlix Store is a modern eCommerce storefront focused on delivering a premium shopping experience for fitness and supplement brands.
-
-The project demonstrates responsive UI design, clean frontend architecture, reusable components, and an optimized customer experience. It is intended as a learning resource and starting point for developers building modern eCommerce websites.
-
----
-
-# ✨ Features
-
-- Modern premium UI
-- Responsive Design
-- Mobile-first layout
-- Product showcase sections
-- Hero Banner
-- Feature Cards
-- Modern Typography
-- Smooth Animations
-- Dark Theme
-- Fast Loading
-- SEO Friendly
-- Easy Customization
-- Reusable Components
-- Clean Code Structure
-
----
-
-# 🛠️ Technologies Used
-
-- HTML5
-- CSS3
-- JavaScript
-- Responsive Design
-- Modern Web UI
-
----
-
-# 🎯 Project Goals
-
-This project aims to:
-
-- Build a beautiful modern storefront
-- Improve customer experience
-- Create reusable frontend components
-- Share open-source learning resources
-- Help developers build modern eCommerce websites
-
----
-
-# 📱 Responsive
-
-Fully optimized for
-
-- Desktop
-- Laptop
-- Tablet
-- Mobile
-
----
-
-# 🚀 Getting Started
-
-Clone the repository
+With Shopify CLI:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/fitlix-store.git
+cp snippets/price.liquid /path/to/your-theme/snippets/
+shopify theme push
 ```
 
-Open the project folder
+## Snippets
 
-```bash
-cd fitlix-store
+### `price.liquid`
+
+Renders a price with automatic sale detection and an optional savings percentage badge.
+
+```liquid
+{% render 'price', product: product %}
+{% render 'price', product: product, show_savings: true %}
 ```
 
-Open the HTML file in your browser.
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `product` | Object | — | Product or variant object (required) |
+| `show_savings` | Boolean | `false` | Show a "Save X%" badge when on sale |
 
 ---
 
-# 📂 Project Structure
+### `responsive-image.liquid`
 
+Renders an image with a full `srcset`, explicit width/height (prevents layout shift), and lazy loading.
+
+```liquid
+{% render 'responsive-image',
+   image: product.featured_image,
+   sizes: '(min-width: 768px) 50vw, 100vw' %}
 ```
-fitlix-store/
-│
-├── index.html
-├── assets/
-├── images/
-├── css/
-├── js/
-└── README.md
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `image` | Object | — | Shopify image object (required) |
+| `alt` | String | `image.alt` | Alt text |
+| `sizes` | String | `100vw` | `sizes` attribute |
+| `loading` | String | `lazy` | `lazy` or `eager` |
+| `class` | String | — | Extra CSS classes |
+
+---
+
+### `stock-status.liquid`
+
+Shows in-stock, low-stock urgency, or out-of-stock messaging.
+
+```liquid
+{% render 'stock-status', variant: product.selected_or_first_available_variant %}
+{% render 'stock-status', variant: variant, low_threshold: 10 %}
 ```
 
----
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `variant` | Object | — | Variant object (required) |
+| `low_threshold` | Number | `5` | Quantity at or below which urgency shows |
 
-# 🌟 Future Improvements
-
-- Product Pages
-- Shopping Cart
-- Wishlist
-- User Authentication
-- Search
-- Filters
-- Better Animations
-- Accessibility Improvements
-- Performance Optimization
-- More Reusable Components
+> Requires inventory tracking enabled on the variant in Shopify admin for real numbers.
 
 ---
 
-# 🤝 Contributing
+### `breadcrumbs.liquid`
 
-Contributions are welcome.
+Accessible breadcrumb navigation that adapts to product, collection, page, blog, article, search, and 404 templates automatically.
 
-If you have ideas for improving the project, feel free to:
+```liquid
+{% render 'breadcrumbs' %}
+```
 
-- Fork the repository
-- Create a new branch
-- Commit your changes
-- Open a Pull Request
-
----
-
-# 📄 License
-
-This project is released under the MIT License.
+No parameters — it reads `request.page_type`.
 
 ---
 
-# 🙌 Support
+### `product-json-ld.liquid`
 
-If you find this project useful,
+Outputs Schema.org JSON-LD structured data so Google can show price and availability in search results.
 
-⭐ Star this repository
+```liquid
+{% render 'product-json-ld', product: product %}
+```
 
-🍴 Fork it
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `product` | Object | — | Product object (required) |
 
-💡 Share it with others
-
----
-
-# 👨‍💻 Author
-
-**Sanjib Nayak**
-
-GitHub:
-
-https://github.com/YOUR_USERNAME
+Validate your output with [Google's Rich Results Test](https://search.google.com/test/rich-results).
 
 ---
 
-Made with ❤️ for the Open Source Community.# sanjib
+### `pagination.liquid`
+
+Accessible numbered pagination with proper `rel="prev"` / `rel="next"` and `aria-current`, replacing Shopify's `default_pagination` so you control the markup.
+
+```liquid
+{% paginate collection.products by 24 %}
+  ...products...
+  {% render 'pagination', paginate: paginate %}
+{% endpaginate %}
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `paginate` | Object | — | The `paginate` object (required) |
+
+---
+
+### `free-shipping-bar.liquid`
+
+Shows how much more a customer needs to spend to unlock free shipping, with an accessible progress bar.
+
+```liquid
+{% render 'free-shipping-bar', threshold: 99900 %}
+```
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `threshold` | Number | — | Threshold in cents, e.g. `99900` = ₹999 (required) |
+
+Suggested CSS:
+
+```css
+.free-shipping-bar__track { height: 6px; background: #eee; border-radius: 3px; }
+.free-shipping-bar__fill { height: 100%; background: #FF3B30; border-radius: 3px; transition: width .3s ease; }
+```
+
+## Conventions
+
+Every snippet in this repo follows the same rules:
+
+- Documented with a `{% comment %}` block listing all accepted parameters
+- Sensible defaults so the minimum call always works
+- No external dependencies, no JavaScript, no build step
+- Accessible markup (ARIA labels, semantic elements, `aria-current`)
+- Safe with missing data — renders nothing rather than erroring
+
+## Roadmap
+
+- [ ] `variant-picker.liquid` — swatch-based variant selection
+- [ ] `star-rating.liquid` — metafield-driven review stars
+- [ ] `size-chart-modal.liquid`
+- [ ] `recently-viewed.liquid` — localStorage-backed
+- [ ] `collection-filters.liquid` — Storefront Filtering API
+- [ ] Add a demo theme showing all snippets rendered together
+
+## Contributing
+
+PRs welcome. To add a snippet, please include:
+
+1. The `{% comment %}` documentation block with all parameters
+2. A section in this README following the existing table format
+3. Sensible defaults so the snippet works with minimal arguments
+
+## License
+
+[MIT](LICENSE) © Sanjib Nayak

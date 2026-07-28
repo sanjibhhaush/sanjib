@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS Component Library — Live Demo</title>
+<link rel="stylesheet" href="src/index.css">
+<style>
+  body { font-family: var(--font-sans); background: var(--c-bg); color: var(--c-text); margin: 0; }
+  header { border-bottom: 1px solid var(--c-border); padding: var(--space-8) 0; }
+  section { padding: var(--space-12) 0; border-bottom: 1px solid var(--c-border); }
+  h1 { font-size: var(--text-2xl); margin: 0 0 var(--space-2); }
+  h2 { font-size: var(--text-xl); margin: 0 0 var(--space-6); }
+  h3 { font-size: var(--text-sm); text-transform: uppercase; letter-spacing: .05em;
+       color: var(--c-text-muted); margin: var(--space-6) 0 var(--space-3); }
+  .lede { color: var(--c-text-muted); margin: 0; max-width: 60ch; }
+  .swatch { height: 64px; border-radius: var(--radius-sm); border: 1px solid var(--c-border); }
+  .swatch-label { font-size: var(--text-xs); color: var(--c-text-muted); margin-top: var(--space-2); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container split">
+    <div>
+      <h1>CSS Component Library</h1>
+      <p class="lede">Dependency-free, token-driven CSS components. No build step, no framework.</p>
+    </div>
+    <button class="btn btn--outline" id="theme-toggle" type="button">Toggle dark mode</button>
+  </div>
+</header>
+
+<section>
+  <div class="container">
+    <h2>Design tokens</h2>
+    <p class="lede">Every component reads from these CSS custom properties. Override them on <code>:root</code> to retheme everything at once.</p>
+
+    <h3>Colors</h3>
+    <div class="grid grid--sm">
+      <div><div class="swatch" style="background: var(--c-primary)"></div><p class="swatch-label">--c-primary</p></div>
+      <div><div class="swatch" style="background: var(--c-accent)"></div><p class="swatch-label">--c-accent</p></div>
+      <div><div class="swatch" style="background: var(--c-success)"></div><p class="swatch-label">--c-success</p></div>
+      <div><div class="swatch" style="background: var(--c-warning)"></div><p class="swatch-label">--c-warning</p></div>
+      <div><div class="swatch" style="background: var(--c-danger)"></div><p class="swatch-label">--c-danger</p></div>
+      <div><div class="swatch" style="background: var(--c-info)"></div><p class="swatch-label">--c-info</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Buttons</h2>
+
+    <h3>Variants</h3>
+    <div class="cluster">
+      <button class="btn">Default</button>
+      <button class="btn btn--primary">Primary</button>
+      <button class="btn btn--accent">Accent</button>
+      <button class="btn btn--outline">Outline</button>
+      <button class="btn btn--ghost">Ghost</button>
+      <button class="btn btn--danger">Danger</button>
+    </div>
+
+    <h3>Sizes</h3>
+    <div class="cluster">
+      <button class="btn btn--primary btn--sm">Small</button>
+      <button class="btn btn--primary">Medium</button>
+      <button class="btn btn--primary btn--lg">Large</button>
+    </div>
+
+    <h3>States</h3>
+    <div class="cluster">
+      <button class="btn btn--primary" disabled>Disabled</button>
+      <button class="btn btn--primary btn--loading">Loading</button>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Cards</h2>
+    <div class="grid">
+      <article class="card card--interactive">
+        <div class="card__media" style="background: linear-gradient(135deg, #FF3B30, #0B0B0B)"></div>
+        <div class="card__body">
+          <h3 class="card__title" style="text-transform:none;letter-spacing:0;color:var(--c-text);font-size:var(--text-lg);margin-top:0">Whey Protein</h3>
+          <p class="card__text">Interactive card — hover to see the lift and shadow.</p>
+        </div>
+        <div class="card__footer">
+          <span class="badge badge--success badge--dot">In stock</span>
+          <button class="btn btn--sm btn--primary">Add</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__body">
+          <h3 class="card__title" style="text-transform:none;letter-spacing:0;color:var(--c-text);font-size:var(--text-lg);margin-top:0">Static card</h3>
+          <p class="card__text">No media, no hover effect. Cards compose from optional parts.</p>
+        </div>
+      </article>
+
+      <article class="card card--flat" style="background: var(--c-bg-subtle)">
+        <div class="card__body">
+          <h3 class="card__title" style="text-transform:none;letter-spacing:0;color:var(--c-text);font-size:var(--text-lg);margin-top:0">Flat card</h3>
+          <p class="card__text">Borderless variant for grouping on subtle backgrounds.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container container--narrow">
+    <h2>Form controls</h2>
+
+    <div class="field">
+      <label class="field__label field__label--required" for="demo-name">Full name</label>
+      <input class="input" id="demo-name" type="text" placeholder="Sanjib Nayak">
+      <p class="field__hint">As it appears on your ID.</p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="demo-goal">Fitness goal</label>
+      <select class="select" id="demo-goal">
+        <option>Muscle gain</option>
+        <option>Fat loss</option>
+        <option>Endurance</option>
+      </select>
+    </div>
+
+    <div class="field field--error">
+      <label class="field__label" for="demo-email">Email</label>
+      <input class="input" id="demo-email" type="email" value="not-an-email" aria-describedby="demo-email-err">
+      <p class="field__error" id="demo-email-err">Enter a valid email address.</p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="demo-notes">Notes</label>
+      <textarea class="textarea" id="demo-notes" placeholder="Anything else we should know?"></textarea>
+    </div>
+
+    <label class="check">
+      <input type="checkbox" checked>
+      Send me product guides
+    </label>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <h2>Badges</h2>
+    <div class="cluster">
+      <span class="badge">Default</span>
+      <span class="badge badge--success badge--dot">In stock</span>
+      <span class="badge badge--warning badge--dot">Low stock</span>
+      <span class="badge badge--danger badge--dot">Out of stock</span>
+      <span class="badge badge--info">New</span>
+      <span class="badge badge--accent">Sale</span>
+    </div>
+  </div>
+</section>
+
+<section style="border-bottom:none">
+  <div class="container container--narrow stack">
+    <h2>Alerts</h2>
+    <div class="alert alert--success" role="status">
+      <p class="alert__title">Order confirmed</p>
+      <p class="alert__text">Your order has been placed and will ship within 24 hours.</p>
+    </div>
+    <div class="alert alert--warning" role="status">
+      <p class="alert__title">Low stock</p>
+      <p class="alert__text">Only 3 units left at this price.</p>
+    </div>
+    <div class="alert alert--danger" role="alert">
+      <p class="alert__title">Payment failed</p>
+      <p class="alert__text">Your card was declined. Try a different payment method.</p>
+    </div>
+    <div class="alert alert--info" role="status">
+      <p class="alert__title">Free shipping</p>
+      <p class="alert__text">Add ₹200 more to qualify for free delivery.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('theme-toggle').addEventListener('click', function () {
+    var html = document.documentElement;
+    var isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    this.textContent = isDark ? 'Toggle dark mode' : 'Toggle light mode';
+  });
+</script>
+
+</body>
+</html>
